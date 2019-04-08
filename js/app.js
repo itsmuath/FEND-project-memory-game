@@ -11,7 +11,7 @@ for (let i = 0; i < allCards.length; i++) {
     const card = document.createElement("li");
     cardsContainer.appendChild(card);
     card.classList.add("card");
-    card.innerHTML = `<i class="${allCards[i]}"</i>`;
+    card.innerHTML = `<i class="${allCards[i]}"></i>`;
 }
 
 
