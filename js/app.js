@@ -1,6 +1,18 @@
 /*
  * Create a list that holds all of your cards
  */
+const allCards = ["fa fa-diamond", "fa fa-diamond", "fa fa-paper-plane-o", "fa fa-paper-plane-o", "fa fa-anchor", "fa fa-anchor", "fa fa-bolt", "fa fa-bolt", "fa fa-cube", "fa fa-cube", "fa fa-leaf", "fa fa-leaf", "fa fa-bicycle", "fa fa-bicycle", "fa fa-bomb", "fa fa-bomb"]
+
+// Specify the container of all cards
+const cardsContainer = document.querySelector(".deck");
+
+// Create cards
+for (let i = 0; i < allCards.length; i++) {
+    const card = document.createElement("li");
+    cardsContainer.appendChild(card);
+    card.classList.add("card");
+    card.innerHTML = `<i class="${allCards[i]}"</i>`;
+}
 
 
 /*
