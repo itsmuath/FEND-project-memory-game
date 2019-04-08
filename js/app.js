@@ -12,6 +12,24 @@ for (let i = 0; i < allCards.length; i++) {
     cardsContainer.appendChild(card);
     card.classList.add("card");
     card.innerHTML = `<i class="${allCards[i]}"></i>`;
+
+    // Add event listeners for clicking on the cards
+    card.addEventListener("click", function () {
+
+                    // Assign cards to variables for readability
+                    const currentCard = this;
+                    const previousCard = ClickedCards[0];
+
+        // Check the number of clicked cards (for match checking and flipping cards back, etc)
+        if (ClickedCards.length === 1) { // If a single card has been clicked already
+
+            // Flip the card
+            card.classList.add("open", "show")
+
+        } else { // If no card has been clicked yet, simply flip the current card
+            currentCard.classList.add("open", "show")
+        }
+    });
 }
 
 
