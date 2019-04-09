@@ -6,6 +6,9 @@ const allCards = ["fa fa-diamond", "fa fa-diamond", "fa fa-paper-plane-o", "fa f
 // Specify the container of all cards
 const cardsContainer = document.querySelector(".deck");
 
+// Create an empty list to store cards for checking later
+let ClickedCards = [];
+
 // Create cards
 for (let i = 0; i < allCards.length; i++) {
     const card = document.createElement("li");
@@ -20,14 +23,29 @@ for (let i = 0; i < allCards.length; i++) {
         const currentCard = this;
         const previousCard = ClickedCards[0];
 
+        // Flip the card
+        currentCard.classList.add("open", "show");
+
         // Check the number of clicked cards (for match checking and flipping cards back, etc)
         if (ClickedCards.length === 1) { // If a single card has been clicked already
 
-            // Flip the card
-            card.classList.add("open", "show");
 
-        } else { // If no card has been clicked yet, simply flip the current card
-            currentCard.classList.add("open", "show");
+            if (currentCard.innerHTML === previousCard.innerHTML) { // If cards match, add the match properties to them
+                previousCard.classList.add("match");
+                currentCard.classList.add("match");
+
+            } else { // If the two cards don't match, flip them back
+                setTimeout(function () {
+                    previousCard.classList.remove("open", "show");
+                    currentCard.classList.remove("open", "show");
+
+                }, 500);
+            }
+
+            // reset the clickedCards list to be used for next matchings
+            ClickedCards = [];
+        } else {
+            ClickedCards.push(currentCard);
         }
     });
 }
