@@ -1,6 +1,4 @@
-/*
- * Create a list that holds all of your cards
- */
+// Create a list that holds all the cards
 const allCards = ["fa fa-diamond", "fa fa-diamond", "fa fa-paper-plane-o", "fa fa-paper-plane-o", "fa fa-anchor", "fa fa-anchor", "fa fa-bolt", "fa fa-bolt", "fa fa-cube", "fa fa-cube", "fa fa-leaf", "fa fa-leaf", "fa fa-bicycle", "fa fa-bicycle", "fa fa-bomb", "fa fa-bomb"]
 
 // Specify the container of all cards
@@ -8,9 +6,9 @@ const cardsContainer = document.querySelector(".deck");
 
 // Create an empty list to store cards for checking later
 let ClickedCards = [];
+let matchedCount = 0;
 
-// Create cards
-for (let i = 0; i < allCards.length; i++) {
+for (let i = 0; i < allCards.length; i++) { // Create the cards one by one
     const card = document.createElement("li");
     cardsContainer.appendChild(card);
     card.classList.add("card");
@@ -30,12 +28,19 @@ for (let i = 0; i < allCards.length; i++) {
         if (ClickedCards.length === 1) { // If a single card has been clicked already
 
 
-            if (currentCard.innerHTML === previousCard.innerHTML) { // If cards match, add the match properties to them
+            if (currentCard.innerHTML === previousCard.innerHTML) { // If the cards match:
+                // Add the matching card style to them and leave them open
                 previousCard.classList.add("match");
                 currentCard.classList.add("match");
 
-            } else { // If the two cards don't match, flip them back
-                setTimeout(function () {
+                // Increment the counter of matched cards to end the game when all cards are open
+                matchedCount += 2;
+
+                // Call gameEnd to end the game if all cards are open
+                gameEnd();
+
+            } else { // If the two cards don't match:
+                setTimeout(function () { // Flip the cards back after 500 milliseconds
                     previousCard.classList.remove("open", "show");
                     currentCard.classList.remove("open", "show");
 
@@ -49,14 +54,6 @@ for (let i = 0; i < allCards.length; i++) {
         }
     });
 }
-
-
-/*
- * Display the cards on the page
- *   - shuffle the list of cards using the provided "shuffle" method below
- *   - loop through each card and create its HTML
- *   - add each card's HTML to the page
- */
 
 // Shuffle function from http://stackoverflow.com/a/2450976
 function shuffle(array) {
@@ -73,6 +70,24 @@ function shuffle(array) {
     return array;
 }
 
+// Check if all cards are open, then show a congrats message
+function gameEnd() {
+    if (matchedCount === allCards.length)
+        setTimeout(function () {
+            alert("Congratulations! You solved the game");
+        }, 200)
+}
+
+
+
+
+
+/*
+ * Display the cards on the page
+ *   - shuffle the list of cards using the provided "shuffle" method below
+ *   - loop through each card and create its HTML
+ *   - add each card's HTML to the page
+ */
 
 /*
  * set up the event listener for a card. If a card is clicked:
