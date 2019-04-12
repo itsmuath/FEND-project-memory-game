@@ -40,8 +40,8 @@ function viewCard(card) {
         const currentCard = this;
         const previousCard = ClickedCards[0];
 
-        // Flip the card
-        currentCard.classList.add("open", "show");
+        // Flip the card and prevent clicking on it
+        currentCard.classList.add("open", "show", "disable");
 
         // Check the number of clicked cards (for match checking and flipping cards back, etc)
         if (ClickedCards.length === 1) { // If a single card has been clicked already
@@ -72,8 +72,8 @@ function compare(currentCard, previousCard) {
 
     } else { // If the two cards don't match:
         setTimeout(function () { // Flip the cards back after 500 milliseconds
-                    previousCard.classList.remove("open", "show");
-                    currentCard.classList.remove("open", "show");
+            previousCard.classList.remove("open", "show", "disable");
+            currentCard.classList.remove("open", "show", "disable");
 
         }, 500);
     }
