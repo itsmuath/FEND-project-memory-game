@@ -14,11 +14,16 @@ const cardsContainer = document.querySelector(".deck");
 
 // Create an empty list to store cards for checking later
 let ClickedCards = [];
+
+// Initialize a counter for the number of matched cards
 let matchedCount = 0;
 
+// Start the game
 init();
 
-// Start the game
+/*
+ * Create and match cards
+ */
 function init() {
     for (let i = 0; i < allCards.length; i++) { // Create the cards one by one
         const card = document.createElement("li");
@@ -26,7 +31,7 @@ function init() {
         card.classList.add("card");
         card.innerHTML = `<i class="${allCards[i]}"></i>`;
 
-        // Add click event for each card
+        // Call a method that opens cards and compares them to each others
         viewCard(card);
     }
 }
@@ -79,7 +84,9 @@ function compare(currentCard, previousCard) {
     }
 }
 
-// Shuffle function from http://stackoverflow.com/a/2450976
+/*
+ * Shuffle function from http://stackoverflow.com/a/2450976
+ */
 function shuffle(array) {
     var currentIndex = array.length,
         temporaryValue, randomIndex;
@@ -95,10 +102,27 @@ function shuffle(array) {
     return array;
 }
 
-// Check if all cards are open, then show a congrats message
+/*
+ * Check if all cards are open, then show a congrats message
+ */
 function endGame() {
     if (matchedCount === allCards.length)
         setTimeout(function () {
             alert("Congratulations! You solved the game 😃");
         }, 200)
 }
+
+/*
+ * Restart the game
+ */
+const restartButton = document.querySelector(".restart");
+restartButton.addEventListener("click", function () {
+    // Remove all cards
+    cardsContainer.innerHTML = "";
+
+    // Create the cards again and start the game
+    init();
+
+    // Reset the number of matched cards
+    matchedCount = 0;
+})
