@@ -82,6 +82,9 @@ function compare(currentCard, previousCard) {
 
         }, 500);
     }
+
+    // Call a function that increments the number of moves shown to the user
+    incrementMoves();
 }
 
 /*
@@ -102,6 +105,16 @@ function shuffle(array) {
     return array;
 }
 
+// Initialize the move counter
+let moves = 0;
+
+function incrementMoves() {
+    const movesContainer = document.querySelector(".moves");
+    // document.querySelector(".moves").innerHTML ++;
+    moves++;
+    movesContainer.innerHTML = moves;
+}
+
 /*
  * Check if all cards are open, then show a congrats message
  */
@@ -117,12 +130,14 @@ function endGame() {
  */
 const restartButton = document.querySelector(".restart");
 restartButton.addEventListener("click", function () {
-    // Remove all cards
+    // Erase all cards
     cardsContainer.innerHTML = "";
+
+    // Reset any related values
+    matchedCount = 0;
+    moves = 0;
+    document.querySelector(".moves").innerHTML = 0;
 
     // Create the cards again and start the game
     init();
-
-    // Reset the number of matched cards
-    matchedCount = 0;
 })
