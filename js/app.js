@@ -13,7 +13,7 @@ const allCards = ["fa fa-diamond", "fa fa-diamond",
 const cardsContainer = document.querySelector(".deck");
 
 // Create an empty list to store cards for checking later
-let ClickedCards = [];
+let clickedCards = [];
 
 // Initialize a counter for the number of matched cards
 let matchedCount = 0;
@@ -25,6 +25,10 @@ init();
  * Create and match cards
  */
 function init() {
+
+    // Start the game by shuffling all cards
+    shuffle(allCards);
+
     for (let i = 0; i < allCards.length; i++) { // Create the cards one by one
         const card = document.createElement("li");
         cardsContainer.appendChild(card);
@@ -43,22 +47,22 @@ function viewCard(card) {
 
         // Assign cards to variables for readability
         const currentCard = this;
-        const previousCard = ClickedCards[0];
+        const previousCard = clickedCards[0];
 
         // Flip the card and prevent clicking on it
         currentCard.classList.add("open", "show", "disable");
 
         // Check the number of clicked cards (for match checking and flipping cards back, etc)
-        if (ClickedCards.length === 1) { // If a single card has been clicked already
+        if (clickedCards.length === 1) { // If a single card has been clicked already
 
 
             // Compare both opened cards to check if they match
             compare(currentCard, previousCard);
 
             // reset the clickedCards list to be used for next matchings
-            ClickedCards = [];
-        } else {
-            ClickedCards.push(currentCard);
+            clickedCards = [];
+        } else { // Just add the card if there's no previous card
+            clickedCards.push(currentCard);
         }
     });
 }
@@ -137,6 +141,8 @@ restartButton.addEventListener("click", function () {
     matchedCount = 0;
     moves = 0;
     document.querySelector(".moves").innerHTML = 0;
+    // reset the clickedCards list to be used for the new game
+    clickedCards = [];
 
     // Create the cards again and start the game
     init();
