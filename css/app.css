@@ -99,7 +99,7 @@ h1 {
     margin: 0;
     padding: 0;
     display: inline-block;
-    margin: 0 5px 0 0;
+    margin: 0 10px 0 0;
 }
 
 .score-panel .stars li {
@@ -110,4 +110,8 @@ h1 {
 .score-panel .restart {
     float: right;
     cursor: pointer;
+}
+
+#timer {
+    margin-left: 40px;
 }

@@ -38,6 +38,8 @@ function init() {
         // Call a method that opens cards and compares them to each others
         viewCard(card);
     }
+    // Start the timer
+    setTimer();
 }
 
 function viewCard(card) {
@@ -119,14 +121,26 @@ function incrementMoves() {
     movesContainer.innerHTML = moves;
 }
 
+let seconds = 0;
+
+function setTimer() {
+    timer = setInterval(function () {
+
+        const timeContainer = document.querySelector(".seconds");
+        seconds++;
+        timeContainer.innerHTML = seconds;
+    }, 1000);
+}
+
 /*
  * Check if all cards are open, then show a congrats message
  */
 function endGame() {
+    clearInterval(timer);
     if (matchedCount === allCards.length)
         setTimeout(function () {
             alert("Congratulations! You solved the game 😃");
-        }, 200)
+        }, 200);
 }
 
 /*
@@ -137,10 +151,12 @@ restartButton.addEventListener("click", function () {
     // Erase all cards
     cardsContainer.innerHTML = "";
 
-    // Reset any related values
+    // Reset moves counter
     matchedCount = 0;
-    moves = 0;
-    document.querySelector(".moves").innerHTML = 0;
+    moves = document.querySelector(".moves").innerHTML = 0;
+    // Reset timer
+    clearInterval(timer);
+    seconds = document.querySelector(".seconds").innerHTML = 0;
     // reset the clickedCards list to be used for the new game
     clickedCards = [];
 
