@@ -42,6 +42,24 @@ function init() {
     setTimer();
 }
 
+/*
+ * Shuffle function from http://stackoverflow.com/a/2450976
+ */
+function shuffle(array) {
+    var currentIndex = array.length,
+        temporaryValue, randomIndex;
+
+    while (currentIndex !== 0) {
+        randomIndex = Math.floor(Math.random() * currentIndex);
+        currentIndex -= 1;
+        temporaryValue = array[currentIndex];
+        array[currentIndex] = array[randomIndex];
+        array[randomIndex] = temporaryValue;
+    }
+
+    return array;
+}
+
 function viewCard(card) {
 
     // Add event listeners for clicking on the cards
@@ -91,24 +109,9 @@ function compare(currentCard, previousCard) {
 
     // Call a function that increments the number of moves shown to the user
     incrementMoves();
-}
 
-/*
- * Shuffle function from http://stackoverflow.com/a/2450976
- */
-function shuffle(array) {
-    var currentIndex = array.length,
-        temporaryValue, randomIndex;
-
-    while (currentIndex !== 0) {
-        randomIndex = Math.floor(Math.random() * currentIndex);
-        currentIndex -= 1;
-        temporaryValue = array[currentIndex];
-        array[currentIndex] = array[randomIndex];
-        array[randomIndex] = temporaryValue;
-    }
-
-    return array;
+    // Call a function to compute the star rating
+    computeRating(moves);
 }
 
 // Initialize the move counter
@@ -160,6 +163,27 @@ restartButton.addEventListener("click", function () {
     // reset the clickedCards list to be used for the new game
     clickedCards = [];
 
+    resetRating();
+    
     // Create the cards again and start the game
     init();
-})
+});
+
+// Set the star rating to the initial state (3 stars)
+stars = document.querySelector("ul.stars");
+function resetRating() {
+    stars.innerHTML ='<li><i class="fa fa-star"></i></li>'+
+    '<li><i class="fa fa-star"></i></li>'+
+    '<li><i class="fa fa-star"></i></li>';
+}
+
+// Calculate the star rating based on the number of moves
+function computeRating(moves) {
+    if (moves == 2) {
+        stars.removeChild(stars.children[0]);
+    } else if (moves == 4) {
+        stars.removeChild(stars.children[0]);
+    } else if (moves == 7) {
+        stars.removeChild(stars.children[0]);
+    }
+}

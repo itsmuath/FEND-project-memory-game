@@ -115,3 +115,8 @@ h1 {
 #timer {
     margin-left: 40px;
 }
+
+#star-container {
+    min-width: 90px;
+    display: inline-block;
+}
