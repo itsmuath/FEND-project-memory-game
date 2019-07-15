@@ -88,6 +88,12 @@ function viewCard(card) {
 }
 
 function compare(currentCard, previousCard) {
+    // Call a function that increments the number of moves shown to the user
+    incrementMoves();
+    // Call a function to compute the star rating
+    computeRating(moves);
+
+    // Call endGame to end the game if all cards are open
     if (currentCard.innerHTML === previousCard.innerHTML) { // If the cards match:
         // Add the matching card style to them and leave them open
         previousCard.classList.add("match");
@@ -96,8 +102,8 @@ function compare(currentCard, previousCard) {
         // Increment the counter of matched cards to end the game when all cards are open
         matchedCount += 2;
 
-        // Call endGame to end the game if all cards are open
-        endGame();
+        if (matchedCount === allCards.length)
+            endGame();
 
     } else { // If the two cards don't match:
         setTimeout(function () { // Flip the cards back after 500 milliseconds
@@ -106,12 +112,6 @@ function compare(currentCard, previousCard) {
 
         }, 500);
     }
-
-    // Call a function that increments the number of moves shown to the user
-    incrementMoves();
-
-    // Call a function to compute the star rating
-    computeRating(moves);
 }
 
 // Initialize the move counter
@@ -136,21 +136,9 @@ function setTimer() {
 }
 
 /*
- * Check if all cards are open, then show a congrats message
+ * Restart the game if any restart button is clicked
  */
-function endGame() {
-    clearInterval(timer);
-    if (matchedCount === allCards.length)
-        setTimeout(function () {
-            alert("Congratulations! You solved the game 😃");
-        }, 200);
-}
-
-/*
- * Restart the game
- */
-const restartButton = document.querySelector(".restart");
-restartButton.addEventListener("click", function () {
+$(document).on('click', '.restart', function () {
     // Erase all cards
     cardsContainer.innerHTML = "";
 
@@ -164,26 +152,48 @@ restartButton.addEventListener("click", function () {
     clickedCards = [];
 
     resetRating();
-    
+
     // Create the cards again and start the game
     init();
 });
 
 // Set the star rating to the initial state (3 stars)
 stars = document.querySelector("ul.stars");
+
 function resetRating() {
-    stars.innerHTML ='<li><i class="fa fa-star"></i></li>'+
-    '<li><i class="fa fa-star"></i></li>'+
-    '<li><i class="fa fa-star"></i></li>';
+    stars.innerHTML = '<li><i class="fa fa-star"></i></li>' +
+        '<li><i class="fa fa-star"></i></li>' +
+        '<li><i class="fa fa-star"></i></li>';
 }
+
+let rating = 3;
 
 // Calculate the star rating based on the number of moves
 function computeRating(moves) {
-    if (moves == 2) {
+    if (moves == 10) {
         stars.removeChild(stars.children[0]);
-    } else if (moves == 4) {
+        rating = 2;
+    } else if (moves == 15) {
         stars.removeChild(stars.children[0]);
-    } else if (moves == 7) {
+        rating = 1;
+    } else if (moves == 20) {
         stars.removeChild(stars.children[0]);
+        rating = 0;
     }
+}
+
+/*
+ * Stop the game and show a congrats message
+ */
+function endGame() {
+    // Stop the timer
+    clearInterval(timer);
+    // Prepare results to be shown in the modal
+    document.getElementById("timeResult").innerHTML = seconds;
+    document.getElementById("moveResult").innerHTML = moves;
+    document.getElementById("ratingResult").innerHTML = rating;
+
+    setTimeout(function () {
+        $('#myModal').modal('show');
+    }, 200);
 }
